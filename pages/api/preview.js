@@ -1,25 +1,25 @@
 import {client} from '../../utils/contentful'
 export default async function handler(req,res){
-    const {secret,productId} = req.query;
-    console.log("productId: ", productId)
+    const {secret,title} = req.query;
+    console.log("title: ", title)
 
-    if(secret !==process.env.CONTENTFUL_PREVIEW_SECRET || !productId){
-        return res.status(401).json({message: "Invalid token"});
-    }
+    // if(secret !==process.env.CONTENTFUL_PREVIEW_SECRET || !title){
+    //     return res.status(401).json({message: "Invalid token"});
+    // }
 
     const product = await client
     .getEntries({
-      content_type: 'productReview',
+      content_type: 'myArticlesUpadated',
       limit: 1,
-      "fields.productId": productId,
+      "fields.title": title,
     })
-
+    // console.log(product);
     if(!product.items.length){
-        return res.status(401).json({message: "Invalid productId"});
+        return res.status(401).json({message: "Invalid title"});
     }
     const pageFields = product.items[0].fields;
 
     res.setPreviewData({});
-    res.redirect(`/product/${pageFields.productId}`);
+    res.redirect(`/product/${pageFields.title}`);
 
 }

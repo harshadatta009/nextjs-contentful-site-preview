@@ -15,9 +15,12 @@ export default function ProductPage(props) {
   return (
     <div>
         {props.preview && <PreviewBanner/>}
-      <h1>{props.heading}</h1>
-      <h2>{props.subheading}</h2>
-      <p>{props.test}</p>
+      <h1>{props.title}</h1>
+      <h2>{props.category}</h2>
+      <p>{props.description}</p>
+      <br></br>
+      <h2>Updated Summary</h2> <br></br>
+      <p>{props.updatedSummary}</p>
       {/* <p>{props.richtext.content.map((e)=>{
         return e.content[0].value
       })}</p> */}
@@ -28,12 +31,12 @@ export default function ProductPage(props) {
 export async function getStaticPaths() {
   const products = await client
     .getEntries({
-      content_type: 'productReview',
+      content_type: 'myArticlesUpadated',
     })
 
   const paths = products.items.map(product => ({
     params: {
-      slug: product.fields.productId
+      slug: product.fields.title
     }
   }))
 
@@ -50,9 +53,9 @@ export async function getStaticProps(context) {
   const cli = context.preview ? previewClient : client
   const product = await cli
     .getEntries({
-      content_type: 'productReview',
+      content_type: 'myArticlesUpadated',
       limit: 1,
-      "fields.productId": context.params.slug,
+      "fields.title": context.params.slug,
     })
   
   console.log("products: ", product)
