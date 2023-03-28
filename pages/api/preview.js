@@ -20,6 +20,6 @@ export default async function handler(req,res){
     const pageFields = product.items[0].fields;
 
     res.setPreviewData({});
-    res.redirect(`/product/${pageFields.title}`);
+    res.redirect(`/library/${pageFields.title}`);
 
 }
